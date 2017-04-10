@@ -34,7 +34,8 @@ class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
 
 	def get_assets(self):
 		return dict(
-			css=["css/displayprogress.css"]
+			css=["css/displayprogress.css"],
+			js=["js/displayprogress.js"]
 		)
 	##~~ Softwareupdate hook
 
