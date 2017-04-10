@@ -5,16 +5,37 @@ import octoprint.plugin
 import octoprint.events
 
 class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
-                            octoprint.plugin.EventHandlerPlugin,
-                            octoprint.plugin.SettingsPlugin):
+							octoprint.plugin.EventHandlerPlugin,
+							octoprint.plugin.SettingsPlugin,
+							octoprint.plugin.TemplatePlugin,
+							octoprint.plugin.AssetPlugin):
 
 	##~~ SettingsPlugin
+	def on_after_startup(self):
+		self._logger.info("Hello World!")
 
 	def get_settings_defaults(self):
 		return dict(
+			barsymbol="pound",
 			message="{bar} {progress:>3}%"
-		)
+			)
 
+	##~~ TemplatePlugin
+
+	def get_template_configs(self):
+		return [
+			dict(type="settings", custom_bindings=False)
+		]
+
+	def get_template_vars(self):
+		return dict(barsymbol=self._settings.get(["barsymbol"]))
+
+	##~~ AssetPlugin
+
+	def get_assets(self):
+		return dict(
+			css=["css/displayprogress.css"]
+		)
 	##~~ Softwareupdate hook
 
 	def get_update_information(self):
@@ -53,16 +74,32 @@ class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
 
 	def _send_message(self, storage, path, progress):
 		message = self._settings.get(["message"]).format(progress=progress,
-		                                                 storage=storage,
-		                                                 path=path,
-		                                                 bar=self.__class__._progress_bar(progress))
+														 storage=storage,
+														 path=path,
+														 bar=self.__class__._progress_bar(progress))
 		self._printer.commands("M117 {}".format(message))
 
 	@classmethod
+	def _get_symbol():
+		symbol_dict = {
+			"bar" : "|",
+			"equals" : "=",
+			"pound" : "#",
+			"tilde" : "~",
+			"dash" : "-",
+			"underscore" : "_",
+			"colon" : ":"
+			}
+
+		barSymbol = self._settings.get("barsymbol")
+		symbol = symbol_dict.get(barSymbol, "#")
+		return symbol
+
+	@classmethod
 	def _progress_bar(cls, progress):
-		hashes = "#" * int(round(progress / 10))
+		symbols = self.__class__._get_symbol() * int(round(progress / 10))
 		spaces = " " * (10 - len(hashes))
-		return "[{}{}]".format(hashes, spaces)
+		return "[{}{}]".format(symbols, spaces)
 
 __plugin_name__ = "DisplayProgress"
 
@@ -74,4 +111,3 @@ def __plugin_load__():
 	__plugin_hooks__ = {
 		"octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
 	}
-

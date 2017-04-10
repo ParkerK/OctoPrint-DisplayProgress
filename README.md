@@ -13,6 +13,9 @@ or manually using this URL:
 
 ## Configuration
 
+You can customize the progress bar characters, and general formatting from the plugin settings page.
+
+You can also configure it directly by modifying the `yaml` file
 ``` yaml
 plugins:
   displayprogress:
