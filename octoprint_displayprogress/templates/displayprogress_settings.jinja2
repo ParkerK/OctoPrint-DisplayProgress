@@ -1,9 +1,5 @@
 
 <form class="form-horizontal">
-    <div>
-    <label>Current</label>
-    <div class="{{ plugin_displayprogress_barsymbol }}"></div>
-    </div>
 
     <div>
     <label>Selection Preview</label>
@@ -28,12 +24,12 @@
 </form>
 
 <script>
-document.getElementById("symbol").addEventListener("change", myFunction);
+document.getElementById("symbol").addEventListener("change", updatePreview);
 
-function myFunction() {
+function updatePreview() {
     console.log("Running");
-    var x = document.getElementById("fname");
-    var p = document.getElementById("preview");
-    p.className = x.value;
+    var ele = document.getElementById("symbol");
+    var preview = document.getElementById("preview");
+    preview.className = ele.value;
 }
 </script>
