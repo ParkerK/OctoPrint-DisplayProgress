@@ -1,5 +1,11 @@
 /* Thanks https://websemantics.uk/tools/image-to-data-uri-converter/ for the quick png to dataurl code! */
 
+#preview {
+  display: inline-block;
+  height: 40px;
+  margin-left: 20px;
+}
+
 .underscore {
     background-repeat: no-repeat;
     background-size: 100%;
