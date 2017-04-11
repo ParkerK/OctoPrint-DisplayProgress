@@ -98,7 +98,7 @@ class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
 
 	@classmethod
 	def _progress_bar(cls, progress):
-		symbols = self.__class__._get_symbol() * int(round(progress / 10))
+		symbols = cls._get_symbol() * int(round(progress / 10))
 		spaces = " " * (10 - len(hashes))
 		return "[{}{}]".format(symbols, spaces)
 

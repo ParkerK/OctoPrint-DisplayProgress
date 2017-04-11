@@ -1,17 +1,17 @@
 /* Thanks https://websemantics.uk/tools/image-to-data-uri-converter/ for the quick png to dataurl code! */
 
-#preview {
+div#settings_plugin_displayprogress #preview {
   display: inline-block;
   height: 40px;
   margin-left: 20px;
 }
 
-label {
+div#settings_plugin_displayprogress label {
   font-size: larger;
   font-weight: bolder;
 }
 
-div.controls select{
+div#settings_plugin_displayprogress div.controls select{
   width: 250px;
   font-size: large;
   font-weight: bolder;
