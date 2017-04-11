@@ -72,7 +72,7 @@ class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
 	##~~ helpers
 
 	def _send_message(self, storage, path, progress):
-		symbol = _get_symbol()
+		symbol = self.__class__._get_symbol()
 		message = self._settings.get(["message"]).format(progress=progress,
 														 storage=storage,
 														 path=path,
