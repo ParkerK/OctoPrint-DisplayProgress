@@ -81,7 +81,7 @@ class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
 		self._printer.commands("M117 {}".format(message))
 
 	@classmethod
-	def _get_symbol():
+	def _get_symbol(cls):
 		symbol_dict = {
 			"bar" : "|",
 			"equals" : "=",
