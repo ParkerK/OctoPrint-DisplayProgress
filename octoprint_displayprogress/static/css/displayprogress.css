@@ -6,6 +6,18 @@
   margin-left: 20px;
 }
 
+label {
+  font-size: larger;
+  font-weight: bolder;
+}
+
+div.controls select{
+  width: 250px;
+  font-size: large;
+  font-weight: bolder;
+  padding-top: 0;
+}
+
 .underscore {
     background-repeat: no-repeat;
     background-size: 100%;
