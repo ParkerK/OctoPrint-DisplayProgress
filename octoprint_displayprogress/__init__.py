@@ -11,8 +11,6 @@ class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
 							octoprint.plugin.AssetPlugin):
 
 	##~~ SettingsPlugin
-	def on_after_startup(self):
-		self._logger.info("Hello World!")
 
 	def get_settings_defaults(self):
 		return dict(
@@ -74,14 +72,15 @@ class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
 	##~~ helpers
 
 	def _send_message(self, storage, path, progress):
+		symbol = _get_symbol()
 		message = self._settings.get(["message"]).format(progress=progress,
 														 storage=storage,
 														 path=path,
-														 bar=self.__class__._progress_bar(progress))
+														 bar=self.__class__._progress_bar(progress, symbol))
 		self._printer.commands("M117 {}".format(message))
 
-	@classmethod
-	def _get_symbol(cls):
+	## Keep a mapping of the settings name to the actual symbols
+	def _get_symbol(self):
 		symbol_dict = {
 			"bar" : "|",
 			"equals" : "=",
@@ -93,11 +92,12 @@ class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
 			}
 
 		barSymbol = self._settings.get("barsymbol")
+		## Default to the # symbol, if something goes wrong
 		symbol = symbol_dict.get(barSymbol, "#")
 		return symbol
 
 	@classmethod
-	def _progress_bar(cls, progress):
+	def _progress_bar(cls, progress, symbol):
 		symbols = cls._get_symbol() * int(round(progress / 10))
 		spaces = " " * (10 - len(hashes))
 		return "[{}{}]".format(symbols, spaces)
