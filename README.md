@@ -4,6 +4,8 @@ Displays the print progress on the printer's display.
 
 ![Example](http://i.imgur.com/F4m2QlB.jpg)
 
+![Settings](https://i.imgur.com/j1ZCnEm.png)
+
 ## Setup
 
 Install via the bundled [Plugin Manager](https://github.com/foosel/OctoPrint/wiki/Plugin:-Plugin-Manager)
@@ -13,7 +15,7 @@ or manually using this URL:
 
 ## Configuration
 
-You can customize the progress bar characters, and general formatting from the plugin settings page.
+You can customize the progress bar characters and preview the styling from the plugin settings page.
 
 You can also configure it directly by modifying the `yaml` file
 ``` yaml
