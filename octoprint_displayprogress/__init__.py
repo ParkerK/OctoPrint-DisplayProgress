@@ -72,7 +72,8 @@ class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
 	##~~ helpers
 
 	def _send_message(self, storage, path, progress):
-		symbol = self.__class__._get_symbol()
+		symbol = self.__class__._get_symbol(self._settings)
+
 		message = self._settings.get(["message"]).format(progress=progress,
 														 storage=storage,
 														 path=path,
@@ -80,7 +81,11 @@ class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
 		self._printer.commands("M117 {}".format(message))
 
 	## Keep a mapping of the settings name to the actual symbols
-	def _get_symbol(self):
+	## TODO: Can probably make this more pythonic, but I'm having
+	## trouble with figuring out how to access settings directly
+	## when it's a class method making the call (ie: no `self`)
+	@classmethod
+	def _get_symbol(cls, settings):
 		symbol_dict = {
 			"bar" : "|",
 			"equals" : "=",
@@ -91,15 +96,15 @@ class DisplayProgressPlugin(octoprint.plugin.ProgressPlugin,
 			"colon" : ":"
 			}
 
-		barSymbol = self._settings.get("barsymbol")
-		## Default to the # symbol, if something goes wrong
+		barSymbol = settings.get(["barsymbol"])
+		# ## Default to the # symbol, if something goes wrong
 		symbol = symbol_dict.get(barSymbol, "#")
 		return symbol
 
 	@classmethod
 	def _progress_bar(cls, progress, symbol):
-		symbols = cls._get_symbol() * int(round(progress / 10))
-		spaces = " " * (10 - len(hashes))
+		symbols = symbol * int(round(progress / 10))
+		spaces = " " * (10 - len(symbols))
 		return "[{}{}]".format(symbols, spaces)
 
 __plugin_name__ = "DisplayProgress"
